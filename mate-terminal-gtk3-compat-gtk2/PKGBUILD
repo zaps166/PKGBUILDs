@@ -1,0 +1,29 @@
+# Contributor: Martin Wimpress <code@flexion.org>
+
+_pkgname=mate-terminal
+pkgname=${_pkgname}-gtk3-compat-gtk2
+pkgver=1.18.1
+pkgrel=1
+pkgdesc="The MATE Terminal Emulator"
+url="http://mate-desktop.org"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('libsm' 'mate-desktop-gtk2' 'vte3')
+makedepends=('intltool' 'itstool')
+groups=('mate-extra')
+conflicts=('mate-terminal-gtk3' 'mate-terminal-gtk2' 'mate-terminal')
+replaces=('mate-terminal-gtk3' 'mate-terminal-gtk2' 'mate-terminal')
+source=("http://pub.mate-desktop.org/releases/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz")
+sha1sums=('cf0ba10d1d3942672e08180469b7aa2367c315cb')
+
+build() {
+    cd ${_pkgname}-${pkgver}
+    ./configure \
+        --prefix=/usr
+    make
+}
+
+package() {
+    cd ${_pkgname}-${pkgver}
+    make DESTDIR="${pkgdir}" install
+}
